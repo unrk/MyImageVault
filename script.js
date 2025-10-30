@@ -345,12 +345,20 @@ function createGalleryItem(file) {
   const copyBtn = document.createElement("button");
   copyBtn.className = "copy-btn";
   copyBtn.textContent = "Copy URL";
-  copyBtn.onclick = () => copyImageUrl(file.download_url);
+  copyBtn.onclick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    copyImageUrl(file.download_url);
+  };
 
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete-btn";
   deleteBtn.textContent = "Delete";
-  deleteBtn.onclick = () => deleteImage(file);
+  deleteBtn.onclick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    deleteImage(file);
+  };
 
   actions.appendChild(copyBtn);
   actions.appendChild(deleteBtn);
