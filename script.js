@@ -376,9 +376,14 @@ function copyImageUrl(url) {
 
 // Delete image from GitHub
 async function deleteImage(file) {
+  console.log("deleteImage called with file:", file);
+  
   if (!confirm(`Are you sure you want to delete ${file.name}?`)) {
+    console.log("User cancelled deletion");
     return;
   }
+
+  console.log("Attempting to delete:", file.path, "with sha:", file.sha);
 
   try {
     const response = await fetch(
@@ -398,8 +403,12 @@ async function deleteImage(file) {
       }
     );
 
+    console.log("Delete response status:", response.status);
+
     if (!response.ok) {
-      throw new Error("Failed to delete image");
+      const errorData = await response.json();
+      console.error("Delete failed with error:", errorData);
+      throw new Error(errorData.message || "Failed to delete image");
     }
 
     alert("Image deleted successfully!");
