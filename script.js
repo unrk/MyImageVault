@@ -386,7 +386,10 @@ function copyImageUrl(url) {
 async function deleteImage(file) {
   console.log("deleteImage called with file:", file);
   
-  if (!confirm(`Are you sure you want to delete ${file.name}?`)) {
+  const userConfirmed = confirm(`Are you sure you want to delete ${file.name}?`);
+  console.log("User confirmed:", userConfirmed);
+  
+  if (!userConfirmed) {
     console.log("User cancelled deletion");
     return;
   }
