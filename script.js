@@ -347,7 +347,6 @@ function createGalleryItem(file) {
   copyBtn.textContent = "Copy URL";
   copyBtn.onclick = (e) => {
     e.stopPropagation();
-    e.preventDefault();
     copyImageUrl(file.download_url);
   };
 
@@ -356,7 +355,6 @@ function createGalleryItem(file) {
   deleteBtn.textContent = "Delete";
   deleteBtn.onclick = (e) => {
     e.stopPropagation();
-    e.preventDefault();
     deleteImage(file);
   };
 
