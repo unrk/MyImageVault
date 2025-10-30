@@ -382,23 +382,51 @@ function copyImageUrl(url) {
     });
 }
 
+// Custom confirm dialog
+function showConfirmDialog(message) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("confirmModal");
+    const messageEl = document.getElementById("confirmMessage");
+    const yesBtn = document.getElementById("confirmYes");
+    const noBtn = document.getElementById("confirmNo");
+
+    messageEl.textContent = message;
+    modal.classList.add("show");
+
+    const handleYes = () => {
+      modal.classList.remove("show");
+      yesBtn.removeEventListener("click", handleYes);
+      noBtn.removeEventListener("click", handleNo);
+      resolve(true);
+    };
+
+    const handleNo = () => {
+      modal.classList.remove("show");
+      yesBtn.removeEventListener("click", handleYes);
+      noBtn.removeEventListener("click", handleNo);
+      resolve(false);
+    };
+
+    yesBtn.addEventListener("click", handleYes);
+    noBtn.addEventListener("click", handleNo);
+  });
+}
+
 // Delete image from GitHub
 async function deleteImage(file) {
   console.log("deleteImage called with file:", file);
   
-  // Use setTimeout to allow event loop to complete before showing confirm
-  setTimeout(async () => {
-    const userConfirmed = confirm(`Are you sure you want to delete ${file.name}?`);
-    console.log("User confirmed:", userConfirmed);
-    
-    if (!userConfirmed) {
-      console.log("User cancelled deletion");
-      return;
-    }
+  const userConfirmed = await showConfirmDialog(`Are you sure you want to delete ${file.name}?`);
+  console.log("User confirmed:", userConfirmed);
+  
+  if (!userConfirmed) {
+    console.log("User cancelled deletion");
+    return;
+  }
 
-    console.log("Attempting to delete:", file.path, "with sha:", file.sha);
+  console.log("Attempting to delete:", file.path, "with sha:", file.sha);
 
-    try {
+  try {
     const response = await fetch(
       `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${file.path}`,
       {
@@ -430,7 +458,6 @@ async function deleteImage(file) {
     alert(`Error deleting image: ${error.message}`);
     console.error("Error deleting image:", error);
   }
-  }, 0);
 }
 
 // Modal functions

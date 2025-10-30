@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Image Vault</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/733/733553.png" type="image/x-icon">
   </head>
   <body>
     <div class="container">
@@ -88,6 +89,18 @@
     <div id="imageModal" class="modal">
       <span class="modal-close" onclick="closeModal()">&times;</span>
       <img class="modal-content" id="modalImage" />
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal">
+      <div class="confirm-dialog">
+        <h3>Confirm Deletion</h3>
+        <p id="confirmMessage"></p>
+        <div class="confirm-buttons">
+          <button id="confirmYes" class="confirm-yes">Delete</button>
+          <button id="confirmNo" class="confirm-no">Cancel</button>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>
