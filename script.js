@@ -386,17 +386,19 @@ function copyImageUrl(url) {
 async function deleteImage(file) {
   console.log("deleteImage called with file:", file);
   
-  const userConfirmed = confirm(`Are you sure you want to delete ${file.name}?`);
-  console.log("User confirmed:", userConfirmed);
-  
-  if (!userConfirmed) {
-    console.log("User cancelled deletion");
-    return;
-  }
+  // Use setTimeout to allow event loop to complete before showing confirm
+  setTimeout(async () => {
+    const userConfirmed = confirm(`Are you sure you want to delete ${file.name}?`);
+    console.log("User confirmed:", userConfirmed);
+    
+    if (!userConfirmed) {
+      console.log("User cancelled deletion");
+      return;
+    }
 
-  console.log("Attempting to delete:", file.path, "with sha:", file.sha);
+    console.log("Attempting to delete:", file.path, "with sha:", file.sha);
 
-  try {
+    try {
     const response = await fetch(
       `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${file.path}`,
       {
@@ -428,6 +430,7 @@ async function deleteImage(file) {
     alert(`Error deleting image: ${error.message}`);
     console.error("Error deleting image:", error);
   }
+  }, 0);
 }
 
 // Modal functions
