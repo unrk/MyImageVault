@@ -353,8 +353,8 @@ function createGalleryItem(file) {
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete-btn";
   deleteBtn.textContent = "Delete";
+  deleteBtn.type = "button";
   deleteBtn.addEventListener('click', (e) => {
-    e.preventDefault();
     e.stopPropagation();
     console.log('Delete button clicked!', file);
     deleteImage(file);
